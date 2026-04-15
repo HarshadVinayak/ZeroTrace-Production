@@ -1,0 +1,117 @@
+{
+  "challenges": [
+    {
+      "id": 8,
+      "title": "No Bottle Sprint",
+      "description": "Bring a reusable bottle to class every day this week",
+      "goal": "5 class days",
+      "metric": "5 class days",
+      "difficulty": "Custom",
+      "participants": 1,
+      "impact": "Community-created mission to keep ZeroTrace behavior visible.",
+      "created_by": "IIT Demo",
+      "status": "active",
+      "week_label": "Community Challenge",
+      "joined_by": []
+    },
+    {
+      "id": 1,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "Bottle-Free Week",
+      "description": "Avoid buying single-use plastic bottles for the next 7 days.",
+      "goal": "7 days bottle-free",
+      "metric": "0 plastic bottles",
+      "difficulty": "Easy",
+      "participants": 18,
+      "impact": "Cuts a high-frequency daily plastic habit immediately.",
+      "joined_by": []
+    },
+    {
+      "id": 2,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "Cutlery Off Mission",
+      "description": "Order food without disposable cutlery and napkin packs all week.",
+      "goal": "5 cutlery-free orders",
+      "metric": "Packaging bundle avoided",
+      "difficulty": "Medium",
+      "participants": 25,
+      "impact": "Stops the hidden extras that make delivery waste spike.",
+      "joined_by": [
+        "session_z610g9cm"
+      ]
+    },
+    {
+      "id": 3,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "Wrap Detox",
+      "description": "Use boxes, jars, or beeswax wraps instead of cling film.",
+      "goal": "7 days without cling wrap",
+      "metric": "Kitchen plastic avoided",
+      "difficulty": "Easy",
+      "participants": 11,
+      "impact": "Turns one kitchen habit into a repeatable low-waste system.",
+      "joined_by": []
+    },
+    {
+      "id": 4,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "Bag Ban Sprint",
+      "description": "Carry your own bag every time you leave home this week.",
+      "goal": "10 trips with reusable bag",
+      "metric": "Bag refusals",
+      "difficulty": "Easy",
+      "participants": 33,
+      "impact": "Builds a frictionless reusable habit fast.",
+      "joined_by": [
+        "session_z610g9cm"
+      ]
+    },
+    {
+      "id": 5,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "ZeroTrace Audit",
+      "description": "Count every plastic item you throw away for one full week.",
+      "goal": "7-day audit",
+      "metric": "All plastic items logged",
+      "difficulty": "Easy",
+      "participants": 14,
+      "impact": "Awareness creates the fastest compounding behavior change."
+    },
+    {
+      "id": 6,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "Refill Run",
+      "description": "Visit one refill station or eco store this week.",
+      "goal": "1 refill visit",
+      "metric": "Station checked in",
+      "difficulty": "Medium",
+      "participants": 9,
+      "impact": "Connects your digital plan to a real-world replacement habit."
+    },
+    {
+      "id": 7,
+      "created_by": "ZeroTrace",
+      "status": "active",
+      "week_label": "This Week",
+      "title": "One Meal, Zero Plastic",
+      "description": "Complete one meal or snack with no single-use plastic packaging.",
+      "goal": "3 zero-plastic meals",
+      "metric": "Meals completed",
+      "difficulty": "Medium",
+      "participants": 16,
+      "impact": "Shows how small moments add up into visible impact."
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "users": {
+    "iit-demo": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "I want to order food tonight and avoid plastic",
+          "timestamp": 1776269762.649027,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- No single plastic habit dominates yet, which means one intentional swap can create visible progress.\n- Risk signals: hidden packaging habits.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Pick one repeat-use plastic item this week and replace it with a reusable version.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n\n**Coach:**\n- You are early, not behind. ZeroTrace works best when you repeat one small win until it feels automatic.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Pick one repeat-use plastic item this week and replace it with a reusable version.",
+          "timestamp": 1776269762.649027,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        }
+      ],
+      "profile": {
+        "display_name": "Eco Hero",
+        "plastic_score": 45,
+        "risk_level": "Medium Risk",
+        "last_updated": 1776269762.6508858,
+        "trend": "Improving"
+      },
+      "stats": {
+        "chat_count": 1,
+        "product_analyses": 1,
+        "habit_plans": 0,
+        "community_posts": 0
+      }
+    },
+    "iit-demo-2": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "I want to order food tonight and avoid plastic",
+          "timestamp": 1776269809.071677,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- Primary plastic pressure: order food.\n- Risk signals: order food.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Turn off cutlery, sauces, and extra packaging whenever you order food.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You do not need to solve every plastic habit today. Fix order food first and let the score move with you.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Turn off cutlery, sauces, and extra packaging whenever you order food.",
+          "timestamp": 1776269809.071677,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        }
+      ],
+      "profile": {
+        "display_name": "Eco Hero",
+        "plastic_score": 45,
+        "risk_level": "Medium Risk",
+        "last_updated": 1776269821.9199822,
+        "trend": "Needs Attention"
+      },
+      "stats": {
+        "chat_count": 1,
+        "product_analyses": 1,
+        "habit_plans": 0,
+        "community_posts": 1
+      }
+    },
+    "react-demo": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "I want to order food tonight",
+          "timestamp": 1776270689.304557,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- Primary plastic pressure: order food.\n- Risk signals: order food.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Turn off cutlery, sauces, and extra packaging whenever you order food.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You do not need to solve every plastic habit today. Fix order food first and let the score move with you.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Turn off cutlery, sauces, and extra packaging whenever you order food.",
+          "timestamp": 1776270689.304557,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        }
+      ],
+      "profile": {
+        "display_name": "Eco Hero",
+        "plastic_score": 50,
+        "risk_level": "Medium Risk",
+        "last_updated": 1776270689.345726,
+        "trend": "Needs Attention"
+      },
+      "stats": {
+        "chat_count": 1,
+        "product_analyses": 1,
+        "habit_plans": 0,
+        "community_posts": 0
+      }
+    },
+    "session_z610g9cm": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "I want to order food tonight",
+          "timestamp": 1776270811.641551,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- Primary plastic pressure: order food.\n- Risk signals: order food.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Turn off cutlery, sauces, and extra packaging whenever you order food.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You do not need to solve every plastic habit today. Fix order food first and let the score move with you.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Turn off cutlery, sauces, and extra packaging whenever you order food.",
+          "timestamp": 1776270811.641551,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "user",
+          "content": "What should I change in my weekly shopping habit?",
+          "timestamp": 1776270821.9105039,
+          "intent": "planning",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- Primary plastic pressure: order food.\n- Risk signals: order food, cutlery.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Turn off cutlery, sauces, and extra packaging whenever you order food.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You do not need to solve every plastic habit today. Fix order food first and let the score move with you.\n- Your ZeroTrace mode right now: Plastic Pressure Watcher.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Turn off cutlery, sauces, and extra packaging whenever you order food.",
+          "timestamp": 1776270821.9105039,
+          "intent": "planning",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "user",
+          "content": "hi",
+          "timestamp": 1776271045.833581,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- Primary plastic pressure: order food.\n- Risk signals: order food, cutlery.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Turn off cutlery, sauces, and extra packaging whenever you order food.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You do not need to solve every plastic habit today. Fix order food first and let the score move with you.\n- Your ZeroTrace mode right now: Plastic Pressure Watcher.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Turn off cutlery, sauces, and extra packaging whenever you order food.",
+          "timestamp": 1776271045.833581,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "user",
+          "content": "I want to order food tonight",
+          "timestamp": 1776272182.9436522,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- Primary plastic pressure: order food.\n- Risk signals: order food, cutlery.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Turn off cutlery, sauces, and extra packaging whenever you order food.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You do not need to solve every plastic habit today. Fix order food first and let the score move with you.\n- Your ZeroTrace mode right now: Plastic Pressure Watcher.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Turn off cutlery, sauces, and extra packaging whenever you order food.",
+          "timestamp": 1776272182.9436522,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Turn off cutlery, sauces, and extra packaging whenever you order food.",
+            "provider": "Local Demo Agents"
+          }
+        }
+      ],
+      "profile": {
+        "display_name": "Eco Hero",
+        "plastic_score": 50,
+        "risk_level": "Medium Risk",
+        "last_updated": 1776272261.16123,
+        "trend": "Needs Attention"
+      },
+      "stats": {
+        "chat_count": 4,
+        "product_analyses": 1,
+        "habit_plans": 0,
+        "community_posts": 0
+      }
+    },
+    "demo_user": {
+      "messages": [
+        {
+          "role": "user",
+          "content": "hi",
+          "timestamp": 1776274094.055157,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- No single plastic habit dominates yet, which means one intentional swap can create visible progress.\n- Risk signals: hidden packaging habits.\n- Positive signals: No strong positive signals yet.\n\n**Planner:**\n- Pick one repeat-use plastic item this week and replace it with a reusable version.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You are early, not behind. ZeroTrace works best when you repeat one small win until it feels automatic.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Pick one repeat-use plastic item this week and replace it with a reusable version.",
+          "timestamp": 1776274094.055157,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "user",
+          "content": "hi",
+          "timestamp": 1776274453.329104,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- No single plastic habit dominates yet, which means one intentional swap can create visible progress.\n- Risk signals: hidden packaging habits.\n- Positive signals: reusable.\n\n**Planner:**\n- Pick one repeat-use plastic item this week and replace it with a reusable version.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You are early, not behind. ZeroTrace works best when you repeat one small win until it feels automatic.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Pick one repeat-use plastic item this week and replace it with a reusable version.",
+          "timestamp": 1776274453.329104,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "user",
+          "content": "who are you",
+          "timestamp": 1776274460.684963,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- No single plastic habit dominates yet, which means one intentional swap can create visible progress.\n- Risk signals: hidden packaging habits.\n- Positive signals: reusable.\n\n**Planner:**\n- Pick one repeat-use plastic item this week and replace it with a reusable version.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You are early, not behind. ZeroTrace works best when you repeat one small win until it feels automatic.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Pick one repeat-use plastic item this week and replace it with a reusable version.",
+          "timestamp": 1776274460.684963,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "user",
+          "content": "what are you",
+          "timestamp": 1776274469.9610481,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        },
+        {
+          "role": "assistant",
+          "content": "**Title:** ZeroTrace Multi-Agent Brief\n\n**Analyzer:**\n- No single plastic habit dominates yet, which means one intentional swap can create visible progress.\n- Risk signals: hidden packaging habits.\n- Positive signals: reusable.\n\n**Planner:**\n- Pick one repeat-use plastic item this week and replace it with a reusable version.\n- Log your next purchase inside ZeroTrace so the AI twin can refine your score.\n- Repeat the lowest-friction plastic swap until it becomes automatic.\n\n**Coach:**\n- You are early, not behind. ZeroTrace works best when you repeat one small win until it feels automatic.\n- Your ZeroTrace mode right now: Decision-Stage Optimizer.\n\n**Impact Estimate:**\n- Estimated exposure from this topic: 0.0 kg plastic/year.\n- Potential CO2 equivalent: 0.0 kg/year.\n- Next loop action: Pick one repeat-use plastic item this week and replace it with a reusable version.",
+          "timestamp": 1776274469.9610481,
+          "intent": "quick",
+          "metadata": {
+            "next_action": "Pick one repeat-use plastic item this week and replace it with a reusable version.",
+            "provider": "Local Demo Agents"
+          }
+        }
+      ],
+      "profile": {
+        "display_name": "Eco Hero",
+        "plastic_score": 45,
+        "risk_level": "Medium Risk",
+        "last_updated": 1776274469.964304,
+        "trend": "Improving"
+      },
+      "stats": {
+        "chat_count": 4,
+        "product_analyses": 0,
+        "habit_plans": 0,
+        "community_posts": 0
+      }
+    }
+  }
+}

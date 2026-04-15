@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "ZeroTrace Live Analyzer",
+  "version": "1.0",
+  "description": "Real-time AI plastic impact analysis across Amazon, Swiggy, and Flipkart.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.amazon.*/*",
+    "*://*.flipkart.*/*",
+    "*://*.swiggy.*/*",
+    "*://*.zomato.*/*",
+    "*://*.dunzo.*/*",
+    "*://*.bigbasket.*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.amazon.*/*",
+        "*://*.flipkart.*/*",
+        "*://*.swiggy.*/*",
+        "*://*.zomato.*/*",
+        "*://*.dunzo.*/*",
+        "*://*.bigbasket.*/*"
+      ],
+      "js": ["content.js"]
+    }
+  ]
+}

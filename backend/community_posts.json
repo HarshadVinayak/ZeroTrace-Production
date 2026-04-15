@@ -1,0 +1,89 @@
+[
+  {
+    "id": 6,
+    "user": "IIT Demo",
+    "message": "Finished a no-cutlery food order today.",
+    "timestamp": "2026-04-15T21:47:01.921121",
+    "tags": [
+      "plastic-free",
+      "small-win"
+    ],
+    "reactions": {
+      "\u267b\ufe0f": 0,
+      "\ud83c\udf31": 0,
+      "\ud83d\udd0b": 0
+    }
+  },
+  {
+    "id": 5,
+    "user": "Alex",
+    "message": "I started using bamboo straws instead of plastic ones!",
+    "timestamp": "2026-04-15T19:10:28.565778",
+    "tags": [
+      "sustainable",
+      "eco-friendly",
+      "reduce-plastic-waste"
+    ],
+    "reactions": {
+      "\u267b\ufe0f": 2,
+      "\ud83c\udf31": 0,
+      "\ud83d\udd0b": 0
+    }
+  },
+  {
+    "id": 4,
+    "user": "Alex",
+    "message": "I started using bamboo straws instead of plastic ones!",
+    "timestamp": "2026-04-15T19:08:16.024259",
+    "tags": [
+      "reusable",
+      "low-waste",
+      "plastic-free"
+    ],
+    "reactions": {
+      "\u267b\ufe0f": 0,
+      "\ud83c\udf31": 0,
+      "\ud83d\udd0b": 0
+    }
+  },
+  {
+    "id": 3,
+    "user": "Alex",
+    "message": "I started using bamboo straws instead of plastic ones!",
+    "timestamp": "2026-04-15T19:06:03.753159",
+    "tags": [
+      "bamboo",
+      "reusable",
+      "eco-swap"
+    ],
+    "reactions": {
+      "\u267b\ufe0f": 0,
+      "\ud83c\udf31": 0,
+      "\ud83d\udd0b": 0
+    }
+  },
+  {
+    "id": 2,
+    "user": "Alex",
+    "message": "I started using bamboo straws instead of plastic ones!",
+    "timestamp": "2026-04-15T19:04:53.959870",
+    "tags": [],
+    "reactions": {
+      "\u267b\ufe0f": 0,
+      "\ud83c\udf31": 0,
+      "\ud83d\udd0b": 0
+    }
+  },
+  {
+    "id": 1,
+    "user": "Alex",
+    "message": "I started using bamboo straws instead of plastic ones!",
+    "timestamp": "2026-04-15T19:03:38.388575",
+    "tags": [],
+    "reactions": {
+      "\u267b\ufe0f": 0,
+      "\ud83c\udf31": 0,
+      "\ud83d\udd0b": 0
+    }
+  }
+]

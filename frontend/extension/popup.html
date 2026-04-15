@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ZeroTrace Analyzer</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      width: 320px;
+      margin: 0;
+      padding: 16px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 30px;
+      height: 30px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      color: #fff;
+    }
+    .btn {
+      background: #00ff9f;
+      color: #0f172a;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+    .btn:hover {
+      opacity: 0.9;
+    }
+    .btn:disabled {
+      background: #334155;
+      color: #94a3b8;
+      cursor: not-allowed;
+    }
+    .result {
+      margin-top: 16px;
+      background: #1e293b;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      display: none;
+    }
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .score {
+      font-size: 32px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .badge.high { background: #ef4444; color: #fff; }
+    .badge.medium { background: #eab308; color: #000; }
+    .badge.low { background: #22c55e; color: #fff; }
+    
+    .recs {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      font-size: 12px;
+    }
+    .recs li {
+      margin-bottom: 6px;
+      color: #cbd5e1;
+    }
+    .recs li::before {
+      content: "✓ ";
+      color: #00ff9f;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌱 ZeroTrace AI</h1>
+  </div>
+  <button id="analyze" class="btn">Analyze Current Page</button>
+  
+  <div id="resultBox" class="result">
+    <div class="score-row">
+      <div>
+        <div style="font-size:10px; color:#94a3b8; text-transform:uppercase;">Impact Score</div>
+        <div class="score" id="score">0</div>
+      </div>
+      <div id="badge" class="badge">--</div>
+    </div>
+    <ul class="recs" id="recs"></ul>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
