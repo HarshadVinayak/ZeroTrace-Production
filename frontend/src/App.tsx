@@ -829,10 +829,12 @@ function MainLayout({ session }: { session: any }) {
   );
 }
 
+// 6. ERROR BOUNDARY & ROOT APP
 export default function App() {
   const [theme, setTheme] = useState(localStorage.getItem('zt_theme') || 'dark');
   const [toast, setToast] = useState<{message: string, type: 'success'|'error'|'info'} | null>(null);
   const [session, setSession] = useState<any>(undefined); // undefined = loading
+  const [authError, setAuthError] = useState<string | null>(null);
 
   // Apply theme
   useEffect(() => {
@@ -843,28 +845,68 @@ export default function App() {
 
   // Real Supabase session listener
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-    });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession);
-    });
-    return () => listener.subscription.unsubscribe();
+    try {
+      if (!supabase) {
+        setAuthError("Supabase client failed to initialize. Check environment variables.");
+        setSession(null);
+        return;
+      }
+
+      supabase.auth.getSession().then(({ data, error }) => {
+        if (error) {
+          console.error("Session fetch error:", error);
+          setAuthError(error.message);
+        }
+        setSession(data?.session || null);
+      }).catch(err => {
+        console.error("Fatal session error:", err);
+        setAuthError(err.message);
+        setSession(null);
+      });
+
+      const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+        setSession(newSession || null);
+      });
+
+      return () => {
+        if (listener?.subscription) {
+          listener.subscription.unsubscribe();
+        }
+      };
+    } catch (err: any) {
+      console.error("Auth Listener Setup Failed:", err);
+      setAuthError(err.message);
+      setSession(null);
+    }
   }, []);
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
   // Loading spinner while Supabase resolves session
-  if (session === undefined) {
+  if (session === undefined && !authError) {
     return (
       <div className="min-h-screen bg-[#07131f] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="flex flex-col items-center gap-6">
+          <div className="w-16 h-16 border-4 border-emerald-500/10 border-t-emerald-400 rounded-full animate-spin shadow-[0_0_20px_rgba(16,185,129,0.2)]" />
+          <p className="text-emerald-400/60 font-black uppercase tracking-[0.3em] text-[10px] animate-pulse">Syncing Neural Link...</p>
+        </div>
       </div>
     );
   }
 
-  // Not authenticated → show Login
-  if (!session) return <Login />;
+  // Auth Error Screen
+  if (authError) {
+    return (
+      <div className="min-h-screen bg-[#07131f] flex items-center justify-center p-6">
+        <div className="max-w-md w-full bg-red-500/5 border border-red-500/20 rounded-[2.5rem] p-10 text-center backdrop-blur-3xl">
+          <AlertTriangle className="w-16 h-16 text-red-500 mx-auto mb-6" />
+          <h2 className="text-2xl font-black text-white uppercase italic mb-4">Connection Failed</h2>
+          <p className="text-red-400/80 text-sm font-medium mb-8 leading-relaxed">{authError}</p>
+          <button onClick={() => window.location.reload()} className="w-full py-4 rounded-2xl bg-red-500 text-white font-black uppercase tracking-widest text-xs hover:bg-red-400 transition-all">Retry Link</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -872,8 +914,14 @@ export default function App() {
         <AnimatePresence>
           {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
         </AnimatePresence>
-        <MainLayout session={session} />
+        
+        {session ? (
+          <MainLayout session={session} />
+        ) : (
+          <Login />
+        )}
       </BrowserRouter>
     </ThemeContext.Provider>
   );
 }
+
