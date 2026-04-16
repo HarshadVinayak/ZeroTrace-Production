@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import MobileLayout from './MobileLayout';
 import { ThemeContext, Toast } from '../App';
-import { supabase } from '../lib/supabase';
 import Login from '../pages/Login';
 import { BrowserRouter } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
@@ -21,11 +20,10 @@ export default function MobileApp() {
     return () => { document.body.style.overflow = 'auto'; }
   }, [theme]);
 
-  // Supabase session sync
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data: listener } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    return () => listener.subscription.unsubscribe();
+    setTimeout(() => {
+      setSession({ user: { id: 'demo_user', user_metadata: { full_name: 'Eco Explorer' } } });
+    }, 500);
   }, []);
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');

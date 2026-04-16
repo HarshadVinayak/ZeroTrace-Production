@@ -1,18 +1,13 @@
 import { motion } from 'framer-motion';
 import { useContext } from 'react';
 import { ThemeContext } from '../../App';
-import { signOut } from '../../lib/supabase';
 import { Moon, Sun, LogOut } from 'lucide-react';
 
 export default function MobileProfile() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (e) {
-      console.error(e);
-    }
+    window.location.reload();
   };
 
   return (
