@@ -263,7 +263,7 @@ function Dashboard() {
           </div>
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
