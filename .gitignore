@@ -1,4 +1,23 @@
-
+# Environments
 .env
 *.env
 backend/.env
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+*.db
+*.sqlite3
+
+# Node
+node_modules/
+dist/
+.DS_Store
+
+# Vercel
+.vercel
