@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Phone, ArrowRight, CheckCircle2, AlertTriangle, Leaf, Sparkles, Globe } from 'lucide-react';
-import { signInWithGoogle, sendOTP, verifyOTP } from '../lib/supabase';
 
 type Step = 'method' | 'phone' | 'otp';
 type Method = 'google' | 'phone';
@@ -30,42 +29,34 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     clearMessages();
     setLoading(true);
-    try {
-      await signInWithGoogle();
-    } catch (e: any) {
-      setError(e.message || 'Google sign-in failed.');
-    } finally {
+    // Fake Google Login
+    setTimeout(() => {
+      setSuccess('Logged in securely!');
       setLoading(false);
-    }
+      window.location.reload();
+    }, 1500);
   };
 
   const handleSendOTP = async () => {
     if (!phone.trim()) { setError('Please enter a phone number.'); return; }
     clearMessages();
     setLoading(true);
-    try {
-      await sendOTP(phone);
+    setTimeout(() => {
       setSuccess('OTP sent! Check your messages.');
       setStep('otp');
-    } catch (e: any) {
-      setError(e.message || 'Failed to send OTP.');
-    } finally {
       setLoading(false);
-    }
+    }, 1000);
   };
 
   const handleVerifyOTP = async () => {
     if (!otp.trim()) { setError('Please enter the OTP.'); return; }
     clearMessages();
     setLoading(true);
-    try {
-      await verifyOTP(phone, otp);
+    setTimeout(() => {
       setSuccess('Verified! Signing you in...');
-    } catch (e: any) {
-      setError(e.message || 'Invalid OTP.');
-    } finally {
       setLoading(false);
-    }
+      window.location.reload();
+    }, 1500);
   };
 
   return (

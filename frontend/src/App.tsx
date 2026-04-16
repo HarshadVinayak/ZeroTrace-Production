@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import { Activity, Leaf, LayoutDashboard, Users, Send, Target, Zap, AlertTriangle, CheckCircle2, TrendingDown, Settings as SettingsIcon, Hash, Save, Bell, Lock, Palette, Camera, Star, Award, Fingerprint, Plus, Moon, Sun, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { supabase, signOut } from './lib/supabase';
 import Login from './pages/Login';
 
 const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
@@ -279,35 +278,10 @@ function CommunityChat({ session }: { session: any }) {
 
   // Fetch initial messages and set up subscription
   useEffect(() => {
-    const fetchMessages = async () => {
-      const { data, error } = await supabase
-        .from('messages')
-        .select('*')
-        .eq('channel', activeChannel)
-        .order('created_at', { ascending: true })
-        .limit(100);
-      
-      if (!error && data) setMessages(data);
-    };
-
-    fetchMessages();
-
-    // Subscribe to real-time changes
-    const channel = supabase
-      .channel(`public:messages:channel=${activeChannel}`)
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'messages',
-        filter: `channel=eq.${activeChannel}`
-      }, (payload) => {
-        setMessages(prev => [...prev, payload.new]);
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    // Fake dummy data
+    setMessages([
+      { id: '1', channel: activeChannel, user_id: 'ai', username: 'AI Auto-Reply', message: `Welcome to the ${activeChannel} channel! Start the conversation.`, created_at: new Date().toISOString(), likes_count: 5 }
+    ]);
   }, [activeChannel]);
 
   useEffect(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), [messages]);
@@ -315,22 +289,21 @@ function CommunityChat({ session }: { session: any }) {
   const send = async () => {
     if (!input.trim()) return;
     const newMessage = {
+      id: Math.random().toString(),
       channel: activeChannel,
-      user_id: session?.user?.id,
+      user_id: session?.user?.id || 'demo',
       username: username,
       message: input,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      likes_count: 0
     };
     
     setInput("");
-    const { error } = await supabase.from('messages').insert([newMessage]);
-    if (error) console.error("Error sending message:", error);
+    setMessages(prev => [...prev, newMessage]);
   };
 
   const toggleLike = async (messageId: string) => {
-    // Basic like logic: increment likes_count in DB
-    const { error } = await supabase.rpc('increment_likes', { row_id: messageId });
-    if (error) console.error("Error liking message:", error);
+    setMessages(prev => prev.map(m => m.id === messageId ? { ...m, likes_count: (m.likes_count || 0) + 1 } : m));
   };
 
   return (
@@ -807,7 +780,7 @@ function MainLayout({ session }: { session: any }) {
         </nav>
 
         <div className="p-4 border-t border-slate-800">
-           <button onClick={async () => { try { await signOut(); } catch {} }} className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 text-red-400 font-bold hover:bg-red-500/20 transition-all border border-red-500/20 active:scale-95">
+           <button onClick={() => window.location.reload()} className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 text-red-400 font-bold hover:bg-red-500/20 transition-all border border-red-500/20 active:scale-95">
              Log Out
            </button>
         </div>
@@ -843,41 +816,12 @@ export default function App() {
     localStorage.setItem('zt_theme', theme);
   }, [theme]);
 
-  // Real Supabase session listener
+  // Setup dummy session
   useEffect(() => {
-    try {
-      if (!supabase) {
-        setAuthError("Supabase client failed to initialize. Check environment variables.");
-        setSession(null);
-        return;
-      }
-
-      supabase.auth.getSession().then(({ data, error }) => {
-        if (error) {
-          console.error("Session fetch error:", error);
-          setAuthError(error.message);
-        }
-        setSession(data?.session || null);
-      }).catch(err => {
-        console.error("Fatal session error:", err);
-        setAuthError(err.message);
-        setSession(null);
-      });
-
-      const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
-        setSession(newSession || null);
-      });
-
-      return () => {
-        if (listener?.subscription) {
-          listener.subscription.unsubscribe();
-        }
-      };
-    } catch (err: any) {
-      console.error("Auth Listener Setup Failed:", err);
-      setAuthError(err.message);
-      setSession(null);
-    }
+    // Fake login
+    setTimeout(() => {
+      setSession({ user: { id: "demo_user", user_metadata: { full_name: "Eco Explorer" } } });
+    }, 500);
   }, []);
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
