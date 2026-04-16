@@ -11,7 +11,6 @@ import time
 from typing import Any, Dict, List, Tuple
 
 from providers import cerebras, gemini, groq, openrouter, sambanova
-from providers import openai_provider
 
 logger = logging.getLogger("zerotrace.providers")
 
@@ -20,7 +19,6 @@ DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() in {"1", "true", "yes", "on"
 PROVIDER_MODULES = {
     "Groq": groq,
     "Gemini": gemini,
-    "OpenAI": openai_provider,
     "OpenRouter": openrouter,
     "Cerebras": cerebras,
     "SambaNova": sambanova,
@@ -29,17 +27,16 @@ PROVIDER_MODULES = {
 PROVIDER_ENV_VARS = {
     "Groq": "GROQ_API_KEY",
     "Gemini": "GEMINI_API_KEY",
-    "OpenAI": "OPENAI_API_KEY",
     "OpenRouter": "OPENROUTER_API_KEY",
     "Cerebras": "CEREBRAS_API_KEY",
     "SambaNova": "SAMBANOVA_API_KEY",
 }
 
 INTENT_CHAINS = {
-    "quick": ["Groq", "SambaNova", "OpenAI", "Gemini", "OpenRouter", "Cerebras"],
-    "planning": ["OpenAI", "Groq", "SambaNova", "Gemini", "OpenRouter", "Cerebras"],
-    "analysis": ["OpenAI", "Gemini", "Groq", "SambaNova", "OpenRouter", "Cerebras"],
-    "general": ["Groq", "OpenAI", "SambaNova", "Gemini", "OpenRouter", "Cerebras"],
+    "quick":    ["Groq", "Cerebras", "SambaNova", "OpenRouter", "Gemini"],
+    "planning": ["Groq", "Gemini",   "SambaNova", "OpenRouter", "Cerebras"],
+    "analysis": ["Gemini", "Groq",   "OpenRouter", "SambaNova", "Cerebras"],
+    "general":  ["Groq", "SambaNova", "Gemini",   "OpenRouter", "Cerebras"],
 }
 
 

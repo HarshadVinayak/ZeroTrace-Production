@@ -316,28 +316,39 @@ Return ONLY a raw JSON object (no markdown, no code fences):
 @app.post("/scan-product")
 async def scan_product(req: ScanProductRequest):
     import json
-    from providers import openai_provider, gemini
+    from providers import gemini, groq
 
     response_text = None
 
-    # Try OpenAI Vision first (best accuracy)
-    if req.image_base64 and os.getenv("OPENAI_API_KEY"):
+    # ── Path 1: Gemini Vision (free, supports image analysis) ────────────────
+    if req.image_base64 and os.getenv("GEMINI_API_KEY"):
         try:
-            response_text = await openai_provider.analyze_image(req.image_base64, SCAN_PROMPT)
-        except Exception as e:
-            logger.warning(f"OpenAI vision failed, trying Gemini: {e}")
-
-    # Fallback to Gemini Vision
-    if not response_text and req.image_base64 and os.getenv("GEMINI_API_KEY"):
-        try:
+            logger.info("Scanner: trying Gemini Vision")
             response_text = await gemini.generate_response(
-                message="Analyze this product image as instructed.",
+                message="Analyze this product image as instructed. Return only JSON.",
                 system_prompt=SCAN_PROMPT,
                 image_base64=req.image_base64
             )
         except Exception as e:
-            logger.warning(f"Gemini vision failed: {e}")
+            logger.warning(f"Gemini Vision failed: {e}")
 
+    # ── Path 2: Groq text fallback (no image, or Gemini failed) ──────────────
+    if not response_text and os.getenv("GROQ_API_KEY"):
+        try:
+            logger.info("Scanner: falling back to Groq text analysis")
+            text_prompt = (
+                SCAN_PROMPT.strip() +
+                "\n\nNote: No image available. Analyze a typical household plastic product "
+                "(e.g. single-use water bottle) as a demonstration example."
+            )
+            response_text = await groq.generate_response(
+                message=text_prompt,
+                system_prompt="You are an eco-intelligence AI. Return only raw JSON."
+            )
+        except Exception as e:
+            logger.warning(f"Groq text fallback failed: {e}")
+
+    # ── Parse JSON from whichever provider responded ──────────────────────────
     if response_text:
         try:
             start = response_text.find('{')
@@ -345,16 +356,16 @@ async def scan_product(req: ScanProductRequest):
             if start >= 0 and end > start:
                 return json.loads(response_text[start:end])
         except json.JSONDecodeError as e:
-            logger.error(f"JSON parse error from vision: {e}")
+            logger.error(f"JSON parse error: {e} | raw: {response_text[:200]}")
 
-    logger.error("All vision providers failed or no image provided")
+    logger.error("All scanner providers failed")
     return {
         "product_name": "Unidentified Item",
         "plastic_level": "medium",
         "score": 50,
         "verdict": "Unverified",
         "alternatives": ["Look for certified eco products"],
-        "recommendation": "Vision AI unavailable — add OPENAI_API_KEY or GEMINI_API_KEY to .env"
+        "recommendation": "Scanner is temporarily unavailable. Check your GEMINI_API_KEY in .env"
     }
 
 @app.get("/global-impact")
