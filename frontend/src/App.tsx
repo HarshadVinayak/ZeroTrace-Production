@@ -8,7 +8,17 @@ import Login from './pages/Login';
 
 const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
 
-const GLASS_PANEL = "backdrop-blur-2xl bg-theme-card border border-color rounded-3xl p-8 shadow-theme-glow transition-all";
+const STAGGER_CHILDREN = {
+  animate: { transition: { staggerChildren: 0.1 } }
+};
+
+const FADE_UP = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, scale: 0.95 }
+};
+
+const GLASS_PANEL = "backdrop-blur-2xl bg-theme-card border border-color rounded-[2.5rem] p-8 shadow-theme-glow transition-all";
 const BUTTON_PRIMARY = "flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold bg-theme-accent text-white shadow-theme-glow hover:-translate-y-1 transition-all active:scale-95";
 
 export const ThemeContext = createContext({ theme: 'dark', toggleTheme: () => {} });
@@ -76,43 +86,61 @@ function Dashboard() {
 
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 relative z-10 pt-10 pb-20 px-6">
-      <header className="flex justify-between items-end mb-8">
-        <motion.div initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}}>
-          <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-green-400 to-[#00ff9f] font-display tracking-tight leading-tight">
-            Intelligence <br/>for Sustainability
+    <motion.div 
+      initial="initial" animate="animate" variants={STAGGER_CHILDREN}
+      className="max-w-6xl mx-auto space-y-10 relative z-10 pt-10 pb-20 px-6"
+    >
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
+        <motion.div variants={FADE_UP}>
+          <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-br from-white via-emerald-400 to-teal-500 font-display tracking-tighter leading-none italic uppercase">
+            Zero <br/> Trace
           </h1>
+          <p className="text-emerald-500/60 font-black tracking-[0.4em] uppercase text-[10px] mt-4 flex items-center gap-2">
+            <span className="w-8 h-px bg-emerald-500/30" /> Real-time Impact Engine
+          </p>
         </motion.div>
+        
         {health && (
-          <div className="hidden md:flex flex-col items-end gap-2">
-            <div className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#1e293b]/60 border border-[#38bdf8]/20 backdrop-blur-md">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#00ff9f] shadow-[0_0_12px_#00ff9f] animate-pulse"></span>
-              <span className="text-[#e2e8f0] text-sm font-medium tracking-wide">AI Core Online</span>
+          <motion.div variants={FADE_UP} className="flex flex-col items-end gap-3">
+            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-2xl">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#00ff9f] shadow-[0_0_15px_#00ff9f] animate-pulse"></span>
+              <span className="text-white text-xs font-black uppercase tracking-widest">Neural Link Active</span>
             </div>
             {globalImpact && (
-              <motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.5}} className="px-5 py-2 rounded-full border border-[#00ff9f]/30 bg-[#00ff9f]/10 text-teal-400 font-bold text-sm flex items-center gap-2">
-                🌍 Global Impact: {globalImpact.total_saved_kg.toLocaleString()}kg Saved
-              </motion.div>
+              <div className="px-6 py-2.5 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 text-emerald-400 font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
+                🌍 Global: {globalImpact.total_saved_kg.toLocaleString()}kg Saved
+              </div>
             )}
-          </div>
+          </motion.div>
         )}
       </header>
 
       {/* Quick Action Tracking */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
-        <button onClick={()=>logAction("plastic_bottle")} className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-teal-900/20 hover:bg-teal-900/40 border border-teal-500/30 text-teal-300 font-bold transition-all hover:scale-105 shadow-md">
-          <Plus className="w-5 h-5"/> Plastic Bottle
-        </button>
-        <button onClick={()=>logAction("ordered_food")} className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-orange-900/20 hover:bg-orange-900/40 border border-orange-500/30 text-orange-300 font-bold transition-all hover:scale-105 shadow-md">
-          <Plus className="w-5 h-5"/> Food Delivery
-        </button>
-        <button onClick={()=>logAction("packaged_item")} className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-purple-900/20 hover:bg-purple-900/40 border border-purple-500/30 text-purple-300 font-bold transition-all hover:scale-105 shadow-md">
-          <Plus className="w-5 h-5"/> Packaged Item
-        </button>
-      </div>
+      <motion.div variants={FADE_UP} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {[
+          { type: 'plastic_bottle', label: 'Plastic Bottle', color: 'emerald', icon: Leaf },
+          { type: 'ordered_food', label: 'Food Delivery', color: 'orange', icon: Zap },
+          { type: 'packaged_item', label: 'Packaged Item', color: 'purple', icon: Activity }
+        ].map((action, i) => (
+          <button 
+            key={i} 
+            onClick={() => logAction(action.type)} 
+            className={`group relative flex items-center justify-between p-6 rounded-[2rem] bg-white/[0.02] hover:bg-white/[0.05] border border-white/10 shadow-xl transition-all hover:-translate-y-2 active:scale-95 overflow-hidden`}
+          >
+            <div className={`absolute inset-0 bg-${action.color}-500/5 opacity-0 group-hover:opacity-100 transition-opacity`} />
+            <div className="flex items-center gap-4 relative z-10">
+              <div className={`w-12 h-12 rounded-2xl bg-${action.color}-500/10 flex items-center justify-center border border-${action.color}-500/20 group-hover:scale-110 transition-transform`}>
+                <action.icon className={`w-6 h-6 text-${action.color}-400`} />
+              </div>
+              <span className="text-white font-black tracking-tight">{action.label}</span>
+            </div>
+            <Plus className="w-5 h-5 text-slate-600 group-hover:text-emerald-400 transition-colors" />
+          </button>
+        ))}
+      </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <motion.div initial={{opacity: 0, scale: 0.98}} animate={{opacity: 1, scale: 1}} transition={{delay: 0.1}} className={`lg:col-span-8 ${GLASS_PANEL} relative overflow-hidden flex flex-col`}>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <motion.div variants={FADE_UP} className={`lg:col-span-8 ${GLASS_PANEL} relative overflow-hidden flex flex-col p-10 min-h-[600px] glass-shine`}>
           <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 blur-[80px] rounded-full pointer-events-none" />
           <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2 mb-4">
             <Fingerprint className="w-5 h-5 text-teal-400" /> Auto Insights & Coach AI
@@ -239,35 +267,70 @@ function Dashboard() {
   );
 }
 
-// 2. DISCORD-STYLE REALTIME CHAT COMPONENT
-function CommunityChat() {
+// 2. DISCORD-STYLE REALTIME CHAT COMPONENT (SUPABASE BACKED)
+function CommunityChat({ session }: { session: any }) {
   const [activeChannel, setActiveChannel] = useState("general");
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
-  const ws = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+  const username = session?.user?.user_metadata?.full_name || session?.user?.email?.split('@')[0] || "EcoHero";
+
   const channels = ["general", "eco-tips", "challenges", "reuse-ideas"];
-  
+
+  // Fetch initial messages and set up subscription
   useEffect(() => {
-    let username = localStorage.getItem("zt_username");
-    if (!username) {
-      username = "EcoHero_" + Math.floor(Math.random()*10000);
-      localStorage.setItem("zt_username", username);
-    }
-    fetch(`${API_BASE}/community/messages/${activeChannel}`).then(r => r.json()).then(setMessages).catch(()=>{});
-    const wsUrl = API_BASE.replace("http://", "ws://").replace("https://", "wss://") + `/ws/chat/${activeChannel}`;
-    ws.current = new WebSocket(wsUrl);
-    ws.current.onmessage = (event) => setMessages(prev => [...prev, JSON.parse(event.data)]);
-    return () => ws.current?.close();
+    const fetchMessages = async () => {
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('channel', activeChannel)
+        .order('created_at', { ascending: true })
+        .limit(100);
+      
+      if (!error && data) setMessages(data);
+    };
+
+    fetchMessages();
+
+    // Subscribe to real-time changes
+    const channel = supabase
+      .channel(`public:messages:channel=${activeChannel}`)
+      .on('postgres_changes', { 
+        event: 'INSERT', 
+        schema: 'public', 
+        table: 'messages',
+        filter: `channel=eq.${activeChannel}`
+      }, (payload) => {
+        setMessages(prev => [...prev, payload.new]);
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [activeChannel]);
 
   useEffect(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), [messages]);
 
-  const send = () => {
-    if (!input.trim() || !ws.current) return;
-    ws.current.send(JSON.stringify({ user_id: "demo_user", username: localStorage.getItem("zt_username") || "User", message: input }));
+  const send = async () => {
+    if (!input.trim()) return;
+    const newMessage = {
+      channel: activeChannel,
+      user_id: session?.user?.id,
+      username: username,
+      message: input,
+      created_at: new Date().toISOString()
+    };
+    
     setInput("");
+    const { error } = await supabase.from('messages').insert([newMessage]);
+    if (error) console.error("Error sending message:", error);
+  };
+
+  const toggleLike = async (messageId: string) => {
+    // Basic like logic: increment likes_count in DB
+    const { error } = await supabase.rpc('increment_likes', { row_id: messageId });
+    if (error) console.error("Error liking message:", error);
   };
 
   return (
@@ -286,10 +349,10 @@ function CommunityChat() {
           </div>
           <div className="mt-auto p-4 bg-slate-800/40 rounded-xl flex items-center gap-3 border border-slate-700/50 cursor-pointer hover:bg-slate-800/60 transition-colors">
              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#00ff9f] to-teal-600 flex items-center justify-center text-sm font-bold text-[#04111f] shadow-md">
-               {localStorage.getItem("zt_username")?.substring(0,2).toUpperCase()}
+               {username.substring(0,2).toUpperCase()}
              </div>
              <div className="overflow-hidden">
-                <div className="text-sm text-white font-bold truncate">{localStorage.getItem("zt_username")}</div>
+                <div className="text-sm text-white font-bold truncate">{username}</div>
                 <div className="text-xs text-yellow-400 font-medium">Lvl 3 • Online</div>
              </div>
           </div>
@@ -308,24 +371,24 @@ function CommunityChat() {
               </div>
             ) : (
               messages.map((msg, i) => {
-                const isMe = msg.user_id === "demo_user" && msg.username === localStorage.getItem("zt_username");
-                const isAI = msg.username === "AI Auto-Reply";
-                return (
-                  <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} key={i} className={`flex gap-4 ${isMe ? 'flex-row-reverse' : ''}`}>
+                 const isMe = msg.user_id === session?.user?.id;
+                 const isAI = msg.username === "AI Auto-Reply";
+                 return (
+                   <motion.div initial={{opacity:0, scale:0.95}} animate={{opacity:1, scale:1}} key={msg.id || i} className={`flex gap-4 ${isMe ? 'flex-row-reverse' : ''}`}>
                     <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center font-bold text-sm shadow-lg border ${isAI ? 'bg-indigo-600 border-indigo-400 text-white' : 'bg-slate-800 border-slate-600 text-slate-300'}`}>
                       {isAI ? <Zap className="w-4 h-4"/> : msg.username.substring(0,2).toUpperCase()}
                     </div>
                     <div className={`flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                       <div className="flex items-baseline gap-2 mb-1 px-1">
-                        <span className={`text-sm font-extrabold ${isAI ? 'text-indigo-400' : 'text-slate-200'}`}>{msg.username} {isAI && '✓'}</span>
-                        <span className="text-xs text-slate-500">{new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                         <span className={`text-sm font-extrabold ${isAI ? 'text-indigo-400' : 'text-slate-200'}`}>{msg.username} {isAI && '✓'}</span>
+                         <span className="text-xs text-slate-500">{new Date(msg.created_at || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                       </div>
                       <div className={`px-5 py-3 rounded-2xl max-w-2xl text-[15px] shadow-md ${isMe ? 'bg-teal-600 border border-teal-500/50 text-white rounded-tr-none' : isAI ? 'bg-indigo-900/40 border border-indigo-500/30 text-indigo-100 rounded-tl-none' : 'bg-[#1e293b] border border-slate-700 text-slate-200 rounded-tl-none'}`}>
                         {msg.message}
                       </div>
                       {!isAI && (
                         <div className={`flex gap-2 mt-1.5 ${isMe ? 'justify-end' : 'justify-start'} w-full px-1`}>
-                           <span className="text-slate-500 hover:text-red-400 text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 active:scale-95">❤️ Like</span>
+                           <span onClick={() => toggleLike(msg.id)} className="text-slate-500 hover:text-red-400 text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 active:scale-95">❤️ {msg.likes_count || ''} Like</span>
                            <span className="text-slate-500 hover:text-teal-400 text-xs font-bold transition-colors cursor-pointer flex items-center gap-1 ml-2 active:scale-95">💬 Reply</span>
                         </div>
                       )}
@@ -695,7 +758,7 @@ function PluginsHub() {
 }
 
 // ROUTER & SIDEBAR
-function MainLayout() {
+function MainLayout({ session }: { session: any }) {
   const location = useLocation();
   useEffect(() => {
     fetch(`${API_BASE}/user/settings`).then(r => r.json()).then(data => {
@@ -757,7 +820,7 @@ function MainLayout() {
             <Route path="/scanner" element={<SmartScanner />} />
             <Route path="/plugins" element={<PluginsHub />} />
             <Route path="/challenges" element={<Gamification />} />
-            <Route path="/community" element={<CommunityChat />} />
+            <Route path="/community" element={<CommunityChat session={session} />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </AnimatePresence>
@@ -809,9 +872,8 @@ export default function App() {
         <AnimatePresence>
           {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
         </AnimatePresence>
-        <MainLayout />
+        <MainLayout session={session} />
       </BrowserRouter>
     </ThemeContext.Provider>
   );
 }
-
