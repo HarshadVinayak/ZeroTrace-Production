@@ -4,7 +4,7 @@ import { Activity, Leaf, LayoutDashboard, Users, Send, Target, Zap, AlertTriangl
 import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
 
 const GLASS_PANEL = "backdrop-blur-2xl bg-theme-card border border-color rounded-3xl p-8 shadow-theme-glow transition-all";
 const BUTTON_PRIMARY = "flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold bg-theme-accent text-white shadow-theme-glow hover:-translate-y-1 transition-all active:scale-95";
@@ -410,17 +410,32 @@ function SmartScanner() {
   }, []);
 
   const capture = async () => {
+    if (!videoRef.current) return;
     setLoading(true);
-    // Add artificial delay to simulate uploading image
-    setTimeout(async () => {
-      try {
-        const res = await fetch(`${API_BASE}/scan-product`, { method: "POST" });
-        setResult(await res.json());
-      } catch {
-        setResult({ product_name: "Plastic Water Bottle", plastic_level: "high", score: 10, verdict: "Bad", alternatives: ["HydroFlask Steel Bottle", "Yeti Tumbler"], recommendation: "Stop buying single-use bottles."});
-      } finally { setLoading(false); }
-    }, 1500);
-  }
+    
+    // Draw current frame to canvas
+    const canvas = document.createElement("canvas");
+    canvas.width = videoRef.current.videoWidth;
+    canvas.height = videoRef.current.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) { setLoading(false); return; }
+    ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const base64Image = canvas.toDataURL("image/jpeg").split(",")[1];
+
+    try {
+      const res = await fetch(`${API_BASE}/scan-product`, { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image_base64: base64Image })
+      });
+      if (!res.ok) throw new Error("API Error");
+      setResult(await res.json());
+    } catch {
+      setResult({ product_name: "AI Unavailable", plastic_level: "unknown", score: 0, verdict: "Error", alternatives: [], recommendation: "Vision API is temporarily down."});
+    } finally { 
+      setLoading(false); 
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 relative z-10 pt-10 pb-20 px-6">
@@ -624,12 +639,12 @@ function PluginsHub() {
   const [demoMode, setDemoMode] = useState(false);
 
   const plugins = [
-    { id: 'amazon', name: 'Amazon', color: 'bg-slate-800' },
-    { id: 'flipkart', name: 'Flipkart', color: 'bg-blue-600' },
-    { id: 'swiggy', name: 'Swiggy', color: 'bg-orange-500' },
-    { id: 'zomato', name: 'Zomato', color: 'bg-red-500' },
-    { id: 'dunzo', name: 'Dunzo', color: 'bg-teal-400' },
-    { id: 'bigbasket', name: 'BigBasket', color: 'bg-green-600' },
+    { id: 'amazon', name: 'Amazon', logo: 'https://logo.clearbit.com/amazon.in' },
+    { id: 'flipkart', name: 'Flipkart', logo: 'https://logo.clearbit.com/flipkart.com' },
+    { id: 'swiggy', name: 'Swiggy', logo: 'https://logo.clearbit.com/swiggy.com' },
+    { id: 'zomato', name: 'Zomato', logo: 'https://logo.clearbit.com/zomato.com' },
+    { id: 'dunzo', name: 'Dunzo', logo: 'https://logo.clearbit.com/dunzo.com' },
+    { id: 'bigbasket', name: 'BigBasket', logo: 'https://logo.clearbit.com/bigbasket.com' },
   ];
 
   const analyze = async () => {
@@ -659,8 +674,8 @@ function PluginsHub() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {plugins.map(p => (
             <div key={p.id} className={`${GLASS_PANEL} flex flex-col items-center p-8 hover:border-[#00ff9f]/30 transition-all cursor-pointer group hover:scale-105`}>
-               <div className={`w-16 h-16 rounded-2xl ${p.color} flex items-center justify-center text-white font-black text-2xl shadow-lg mb-4 transform group-hover:rotate-6 transition-transform`}>
-                 {p.name.substring(0,1)}
+               <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center shadow-lg mb-4 transform group-hover:scale-110 transition-transform overflow-hidden p-2">
+                 <img src={p.logo} alt={p.name} className="w-full h-full object-contain filter drop-shadow-sm" onError={(e) => { e.currentTarget.src = "https://ui-avatars.com/api/?name=" + p.name + "&background=random"; }} />
                </div>
                <h3 className="text-white font-bold text-lg mb-1">{p.name}</h3>
                <p className="text-xs text-slate-500 mb-6 font-bold uppercase">Not Connected</p>
@@ -794,12 +809,13 @@ function MainLayout() {
 }
 
 export default function App() {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(localStorage.getItem('zt_theme') || 'dark');
   const [toast, setToast] = useState<{message: string, type: 'success'|'error'|'info'} | null>(null);
 
   useEffect(() => {
     if (theme === 'dark') document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
+    localStorage.setItem('zt_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');

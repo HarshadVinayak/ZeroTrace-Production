@@ -8,14 +8,14 @@ from typing import Any, Dict, List, Optional
 from datetime import datetime, timedelta
 
 from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ai_providers import DEMO_MODE, provider_status, query_provider_chain
 import database as db
-
-load_dotenv()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s │ %(name)-10s │ %(levelname)-5s │ %(message)s")
 logger = logging.getLogger("zerotrace")
 
@@ -300,24 +300,34 @@ async def log_quick_action(req: ActionRequest):
     return {"status": "success", "xp_gained": 10}
 
 class ScanProductRequest(BaseModel):
-    image: str
+    image_base64: Optional[str] = None
 
 @app.post("/scan-product")
 async def scan_product(req: ScanProductRequest):
-    # Base64 simulated parse -> fallback detection
-    product_guess = "Coca Cola bottle"
-    
-    from search import search_product
-    search_results = search_product(f"plastic packaging impact {product_guess}")
-    search_context = ""
-    for r in search_results:
-        search_context += f"{r['title']} - {r['body']}\n"
-        
-    prompt = f"Analyze this product (detected as {product_guess}) using this real-world data:\n\n{search_context}\n\nReturn EXACT JSON matching: {{\n\"product_name\": \"string\",\n\"plastic_level\": \"low\" | \"medium\" | \"high\",\n\"score\": <0-100>,\n\"verdict\": \"Eco rating string\",\n\"alternatives\": [\"Option 1\"],\n\"recommendation\": \"String recommendation\"\n}}"
+    prompt = """Analyze the product in this image.
+    Identify the brand/product name. Give it a plastic_level (low, medium, high), a score (0-100), a short 1-word verdict, 2 alternatives, and 1 short recommendation.
+    Return ONLY a raw JSON object string (do not wrap in markdown tags):
+    {
+    "product_name": "string",
+    "plastic_level": "low" | "medium" | "high",
+    "score": 0,
+    "verdict": "string",
+    "alternatives": ["A", "B"],
+    "recommendation": "string"
+    }"""
     
     import json
+    from providers import gemini
     try:
-        response_text = await query_provider_chain([{"role": "user", "content": prompt}])
+        if req.image_base64:
+            response_text = await gemini.generate_response(
+                message="Here is the image. Process it as described.",
+                system_prompt=prompt,
+                image_base64=req.image_base64
+            )
+        else:
+            response_text = await query_provider_chain([{"role": "user", "content": prompt + "\nProduct: Unknown scan - evaluate generically."}])
+            
         if response_text:
             cleaned = response_text[response_text.find('{'):response_text.rfind('}')+1]
             return json.loads(cleaned)
@@ -325,13 +335,12 @@ async def scan_product(req: ScanProductRequest):
         logger.error(f"Scan Product AI Failed: {e}")
         
     return {
-        "product_name": "PET Plastic Water Bottle",
-        "plastic_level": "high",
-        "score": 15,
-        "verdict": "High Environmental Impact",
-        "explanation": "High volume single-use PET plastic.",
-        "alternatives": ["Reusable Steel Bottle", "Glass Bottled Water"],
-        "recommendation": "Switch to a reusable bottle to save 120g of plastic weekly."
+        "product_name": "Generic Item",
+        "plastic_level": "medium", 
+        "score": 50, 
+        "verdict": "Unverified", 
+        "alternatives": ["Stainless Steel Option"], 
+        "recommendation": "Vision AI processing failed. Please try again."
     }
 
 @app.get("/global-impact")

@@ -7,15 +7,15 @@ import os
 import httpx
 from prompt import SYSTEM_PROMPT
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 TIMEOUT = 8.0
 
-
 async def generate_response(message: str, system_prompt: str = SYSTEM_PROMPT) -> str:
+    key = os.getenv("OPENROUTER_API_KEY")
+    if not key: raise Exception("OPENROUTER_API_KEY missing")
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Authorization": f"Bearer {key}",
     }
     payload = {
         "model": "mistralai/mistral-7b-instruct:free",

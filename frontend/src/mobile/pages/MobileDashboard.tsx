@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Target, Zap, ZapOff, CheckCircle, Flame } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+const API_BASE = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
 
 export default function MobileDashboard() {
   const [profile, setProfile] = useState<any>(null);

@@ -7,16 +7,26 @@ import os
 import httpx
 from prompt import SYSTEM_PROMPT
 
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 TIMEOUT = 8.0
 
-
-async def generate_response(message: str, system_prompt: str = SYSTEM_PROMPT) -> str:
-    url = f"{GEMINI_URL}?key={GEMINI_API_KEY}"
+async def generate_response(message: str, system_prompt: str = SYSTEM_PROMPT, image_base64: str = None) -> str:
+    key = os.getenv("GEMINI_API_KEY")
+    if not key: raise Exception("GEMINI_API_KEY missing")
+    url = f"{GEMINI_URL}?key={key}"
+    
+    parts = [{"text": f"SYSTEM: {system_prompt}\n\nUSER: {message}"}]
+    if image_base64:
+        parts.append({
+            "inline_data": {
+                "mime_type": "image/jpeg",
+                "data": image_base64
+            }
+        })
+        
     payload = {
         "contents": [{
-            "parts": [{"text": f"SYSTEM: {system_prompt}\n\nUSER: {message}"}]
+            "parts": parts
         }],
         "generationConfig": {
             "temperature": 0.4,

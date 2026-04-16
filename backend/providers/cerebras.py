@@ -7,15 +7,15 @@ import os
 import httpx
 from prompt import SYSTEM_PROMPT
 
-CEREBRAS_API_KEY = os.getenv("CEREBRAS_API_KEY")
 CEREBRAS_URL = "https://api.cerebras.ai/v1/chat/completions"
 TIMEOUT = 8.0
 
-
 async def generate_response(message: str, system_prompt: str = SYSTEM_PROMPT) -> str:
+    key = os.getenv("CEREBRAS_API_KEY")
+    if not key: raise Exception("CEREBRAS_API_KEY missing")
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {CEREBRAS_API_KEY}",
+        "Authorization": f"Bearer {key}",
     }
     payload = {
         "model": "llama3.1-8b",

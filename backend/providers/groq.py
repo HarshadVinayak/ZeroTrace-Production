@@ -7,15 +7,15 @@ import os
 import httpx
 from prompt import SYSTEM_PROMPT
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 TIMEOUT = 8.0
 
-
 async def generate_response(message: str, system_prompt: str = SYSTEM_PROMPT) -> str:
+    key = os.getenv("GROQ_API_KEY")
+    if not key: raise Exception("GROQ_API_KEY missing")
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Authorization": f"Bearer {key}",
     }
     payload = {
         "model": "llama-3.3-70b-versatile",

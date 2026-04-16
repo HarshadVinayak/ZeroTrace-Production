@@ -6,15 +6,15 @@ import os
 import httpx
 from prompt import SYSTEM_PROMPT
 
-SAMBANOVA_API_KEY = os.getenv("SAMBANOVA_API_KEY")
 SAMBANOVA_URL = "https://api.sambanova.ai/v1/chat/completions"
 TIMEOUT = 8.0
 
-
 async def generate_response(message: str, system_prompt: str = SYSTEM_PROMPT) -> str:
+    key = os.getenv("SAMBANOVA_API_KEY")
+    if not key: raise Exception("SAMBANOVA_API_KEY missing")
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {SAMBANOVA_API_KEY}",
+        "Authorization": f"Bearer {key}",
     }
     payload = {
         "model": "Meta-Llama-3.1-70B-Instruct",
