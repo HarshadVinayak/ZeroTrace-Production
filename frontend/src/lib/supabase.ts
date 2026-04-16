@@ -1,15 +1,16 @@
+// @ts-expect-error – run `npm install` locally; Vercel installs automatically at build time
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('[ZeroTrace] Supabase env vars not set. Auth will be disabled.');
+  console.warn('[ZeroTrace] VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY not set. Auth is disabled.');
 }
 
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder'
+  supabaseAnonKey || 'placeholder-key'
 );
 
 // ─── Auth Helpers ────────────────────────────────────────────────────────────
@@ -17,15 +18,12 @@ export const supabase = createClient(
 export async function signInWithGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
-    options: {
-      redirectTo: window.location.origin,
-    },
+    options: { redirectTo: window.location.origin },
   });
   if (error) throw error;
 }
 
 export async function sendOTP(phone: string) {
-  // Normalize phone: ensure leading +
   const normalized = phone.startsWith('+') ? phone : `+${phone}`;
   const { error } = await supabase.auth.signInWithOtp({ phone: normalized });
   if (error) throw error;

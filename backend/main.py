@@ -302,45 +302,59 @@ async def log_quick_action(req: ActionRequest):
 class ScanProductRequest(BaseModel):
     image_base64: Optional[str] = None
 
+SCAN_PROMPT = """You are an eco-intelligence AI. Analyze the product in this image.
+Return ONLY a raw JSON object (no markdown, no code fences):
+{
+  "product_name": "exact brand and product name",
+  "plastic_level": "low" | "medium" | "high",
+  "score": <integer 0-100 eco score, higher is greener>,
+  "verdict": "one of: Eco-Friendly | Acceptable | Avoid",
+  "alternatives": ["eco-friendly alternative 1", "eco-friendly alternative 2"],
+  "recommendation": "one actionable sentence"
+}"""
+
 @app.post("/scan-product")
 async def scan_product(req: ScanProductRequest):
-    prompt = """Analyze the product in this image.
-    Identify the brand/product name. Give it a plastic_level (low, medium, high), a score (0-100), a short 1-word verdict, 2 alternatives, and 1 short recommendation.
-    Return ONLY a raw JSON object string (do not wrap in markdown tags):
-    {
-    "product_name": "string",
-    "plastic_level": "low" | "medium" | "high",
-    "score": 0,
-    "verdict": "string",
-    "alternatives": ["A", "B"],
-    "recommendation": "string"
-    }"""
-    
     import json
-    from providers import gemini
-    try:
-        if req.image_base64:
+    from providers import openai_provider, gemini
+
+    response_text = None
+
+    # Try OpenAI Vision first (best accuracy)
+    if req.image_base64 and os.getenv("OPENAI_API_KEY"):
+        try:
+            response_text = await openai_provider.analyze_image(req.image_base64, SCAN_PROMPT)
+        except Exception as e:
+            logger.warning(f"OpenAI vision failed, trying Gemini: {e}")
+
+    # Fallback to Gemini Vision
+    if not response_text and req.image_base64 and os.getenv("GEMINI_API_KEY"):
+        try:
             response_text = await gemini.generate_response(
-                message="Here is the image. Process it as described.",
-                system_prompt=prompt,
+                message="Analyze this product image as instructed.",
+                system_prompt=SCAN_PROMPT,
                 image_base64=req.image_base64
             )
-        else:
-            response_text = await query_provider_chain([{"role": "user", "content": prompt + "\nProduct: Unknown scan - evaluate generically."}])
-            
-        if response_text:
-            cleaned = response_text[response_text.find('{'):response_text.rfind('}')+1]
-            return json.loads(cleaned)
-    except Exception as e:
-        logger.error(f"Scan Product AI Failed: {e}")
-        
+        except Exception as e:
+            logger.warning(f"Gemini vision failed: {e}")
+
+    if response_text:
+        try:
+            start = response_text.find('{')
+            end = response_text.rfind('}') + 1
+            if start >= 0 and end > start:
+                return json.loads(response_text[start:end])
+        except json.JSONDecodeError as e:
+            logger.error(f"JSON parse error from vision: {e}")
+
+    logger.error("All vision providers failed or no image provided")
     return {
-        "product_name": "Generic Item",
-        "plastic_level": "medium", 
-        "score": 50, 
-        "verdict": "Unverified", 
-        "alternatives": ["Stainless Steel Option"], 
-        "recommendation": "Vision AI processing failed. Please try again."
+        "product_name": "Unidentified Item",
+        "plastic_level": "medium",
+        "score": 50,
+        "verdict": "Unverified",
+        "alternatives": ["Look for certified eco products"],
+        "recommendation": "Vision AI unavailable — add OPENAI_API_KEY or GEMINI_API_KEY to .env"
     }
 
 @app.get("/global-impact")
